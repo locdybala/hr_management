@@ -177,7 +177,7 @@
                         <img src="https://randomuser.me/api/portraits/men/1.jpg" class="profile-avatar" alt="avatar">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="">Thông tin cá nhân</a></li>
+                        <li><a class="dropdown-item" href="{{ route('user.edit') }}">Thông tin cá nhân</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

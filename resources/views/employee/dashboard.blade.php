@@ -4,15 +4,28 @@
 
 @section('content')
 @php
+    use Illuminate\Support\Facades\Auth;
     $employee = Auth::user()->employee;
 @endphp
 <div class="container mt-4">
-    <h2 class="mb-4">HỒ SƠ CÁ NHÂN</h2>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>HỒ SƠ CÁ NHÂN</h2>
+        <a href="{{ route('employee.profile.edit') }}" class="btn btn-primary">
+            <i class="fas fa-edit"></i> Chỉnh sửa thông tin
+        </a>
+    </div>
+    
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="card mb-4">
         <div class="card-body">
             <div class="row align-items-center">
                 <div class="col-md-2 text-center">
-                    <img src="{{ $employee->avatar ?? asset('images/default-avatar.png') }}" alt="Avatar" class="img-thumbnail mb-2" style="width: 120px; height: 120px; object-fit: cover;">
+                    <img src="{{ $employee->avatar ? asset('storage/' . $employee->avatar) : asset('images/default-avatar.png') }}" alt="Avatar" class="img-thumbnail mb-2" style="width: 120px; height: 120px; object-fit: cover;">
                 </div>
                 <div class="col-md-10">
                     <div class="row mb-2">
@@ -41,6 +54,7 @@
             </div>
         </div>
     </div>
+
     <div class="card">
         <div class="card-header bg-primary text-white">
             <strong>Thông tin làm việc</strong>
@@ -70,9 +84,6 @@
             </div>
             <div class="row mb-2">
                 <div class="col-md-4 mb-2">
-                    <strong>Email làm việc:</strong> {{ $employee->email }}
-                </div>
-                <div class="col-md-4 mb-2">
                     <strong>Số điện thoại:</strong> {{ $employee->phone }}
                 </div>
                 <div class="col-md-4 mb-2">
@@ -88,6 +99,11 @@
                 </div>
                 <div class="col-md-4 mb-2">
                     <strong>Trạng thái:</strong> {{ $employee->status }}
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-12">
+                    <strong>Địa chỉ:</strong> {{ $employee->address }}
                 </div>
             </div>
         </div>

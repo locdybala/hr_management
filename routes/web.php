@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\PositionController;
 use App\Http\Controllers\Admin\AttendanceController;
 use App\Http\Controllers\Admin\SalaryController;
 use App\Http\Controllers\Admin\PerformanceController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -62,6 +63,10 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('attendance', AttendanceController::class)->except(['show']);
         Route::resource('salary', SalaryController::class)->except(['show']);
         Route::resource('performance', PerformanceController::class)->except(['show']);
+
+        // Profile routes
+        Route::get('/employee/profile', [EmployeeController::class, 'profile'])->name('admin.employee.profile');
+        Route::put('/employee/profile', [EmployeeController::class, 'updateProfile'])->name('admin.employee.updateProfile');
     });
 
     // Employee Routes
@@ -80,5 +85,16 @@ Route::middleware(['auth'])->group(function () {
 
         // Performance routes
         Route::get('/performance', [App\Http\Controllers\Employee\PerformanceController::class, 'index'])->name('performanceIndex');
+
+        // Profile routes
+        Route::get('/profile', [EmployeeController::class, 'profile'])->name('employee.profile');
+        Route::put('/profile', [EmployeeController::class, 'updateProfile'])->name('employee.updateProfile');
+        Route::get('/profile/edit', [App\Http\Controllers\Employee\EmployeeController::class, 'editProfile'])->name('employee.profile.edit');
+        Route::put('/profile/update', [App\Http\Controllers\Employee\EmployeeController::class, 'updateProfile'])->name('employee.profile.update');
     });
+
+    // User profile routes
+    Route::get('/user/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/user/update', [UserController::class, 'update'])->name('user.update');
 });
+

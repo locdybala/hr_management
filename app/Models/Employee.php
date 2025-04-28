@@ -23,6 +23,7 @@ class Employee extends Model
         'join_date',
         'salary',
         'status',
+        'avatar',
     ];
 
     protected $casts = [

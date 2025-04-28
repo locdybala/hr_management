@@ -76,7 +76,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/attendance/check-out', [App\Http\Controllers\Employee\AttendanceController::class, 'checkOut'])->name('employee.attendance.checkOut');
 
         // Salary routes
-        Route::get('/salaries', [App\Http\Controllers\Employee\SalaryController::class, 'index'])->name('salaryIndex');
+        Route::get('/salaries', [App\Http\Controllers\Employee\EmployeeSalaryController::class, 'index'])->name('salaryIndex');
 
         // Performance routes
         Route::get('/performance', [App\Http\Controllers\Employee\PerformanceController::class, 'index'])->name('performanceIndex');

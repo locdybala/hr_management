@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
-class SalaryController extends Controller
+class EmployeeSalaryController extends Controller
 {
     public function index(Request $request)
     {
@@ -34,7 +34,7 @@ class SalaryController extends Controller
         }
 
         // Đếm số ngày công thực tế (present, late, early_leave)
-        $attendanceCount = \App\Models\Attendance::where('employee_id', $employee->id)
+        $attendanceCount = Attendance::where('employee_id', $employee->id)
             ->whereMonth('date', $month)
             ->whereYear('date', $year)
             ->whereIn('status', ['present', 'late', 'early_leave'])
@@ -44,7 +44,8 @@ class SalaryController extends Controller
         $salaryPerDay = $employee->salary && $workDays > 0 ? $employee->salary / $workDays : 0;
         $totalSalary = round($salaryPerDay * $attendanceCount, 0);
 
-        $salaryData = [
+        $salaryInfo = [
+            'employee' => $employee,
             'work_days' => $workDays,
             'attendance_days' => $attendanceCount,
             'salary_per_day' => $salaryPerDay,
@@ -53,6 +54,6 @@ class SalaryController extends Controller
             'year' => $year,
         ];
 
-        return view('admin.salary.index', compact('salaryData', 'month', 'year', 'employee'));
+        return view('employee.salary.index', compact('salaryInfo', 'month', 'year'));
     }
-}
+} 

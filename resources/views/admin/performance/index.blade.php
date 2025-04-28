@@ -10,7 +10,19 @@
             <a href="{{ route('performance.create') }}" class="btn btn-primary">Thêm mới</a>
         </div>
         <div class="card-body">
-            <form method="GET" action="" class="row g-2 align-items-end mb-3">
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+            
+            <form method="GET" action="{{ route('performance.index') }}" class="row g-2 align-items-end mb-3">
                 <div class="col-md-3">
                     <label for="employee_id" class="form-label">Nhân viên</label>
                     <select name="employee_id" id="employee_id" class="form-select">
@@ -81,7 +93,6 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('performance.show', $review->id) }}" class="btn btn-sm btn-info">Xem</a>
                                     <a href="{{ route('performance.edit', $review->id) }}" class="btn btn-sm btn-warning">Sửa</a>
                                 </td>
                             </tr>

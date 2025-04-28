@@ -37,68 +37,66 @@
                         </div>
                     </form>
 
-                    @if(isset($salaryData))
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="card mb-3">
-                                    <div class="card-header bg-primary text-white">
-                                        <h5 class="mb-0">Thông tin cơ bản</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <table class="table">
-                                            <tr>
-                                                <th>Mã nhân viên:</th>
-                                                <td>{{ $employee->employee_code }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Họ tên:</th>
-                                                <td>{{ $employee->full_name }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Phòng ban:</th>
-                                                <td>{{ $employee->department->name }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Chức vụ:</th>
-                                                <td>{{ $employee->position->name }}</td>
-                                            </tr>
-                                        </table>
-                                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="mb-0">Thông tin cơ bản</h5>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card mb-3">
-                                    <div class="card-header bg-success text-white">
-                                        <h5 class="mb-0">Thông tin lương</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <table class="table">
-                                            <tr>
-                                                <th>Lương cơ bản:</th>
-                                                <td>{{ number_format($employee->salary) }} đ</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Số ngày công chuẩn:</th>
-                                                <td>{{ $salaryData['work_days'] }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Số ngày công thực tế:</th>
-                                                <td>{{ $salaryData['attendance_days'] }}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Lương thực nhận:</th>
-                                                <td class="fw-bold">{{ number_format($salaryData['total_salary']) }} đ</td>
-                                            </tr>
-                                        </table>
-                                    </div>
+                                <div class="card-body">
+                                    <table class="table table-borderless">
+                                        <tr>
+                                            <th width="40%">Họ tên:</th>
+                                            <td>{{ $salaryInfo['employee']->full_name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Mã nhân viên:</th>
+                                            <td>{{ $salaryInfo['employee']->employee_code }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Phòng ban:</th>
+                                            <td>{{ $salaryInfo['employee']->department->name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Chức vụ:</th>
+                                            <td>{{ $salaryInfo['employee']->position->name }}</td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </div>
                         </div>
-                    @else
-                        <div class="alert alert-info">
-                            Không có thông tin lương cho tháng {{ $month }}/{{ $year }}
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="mb-0">Thông tin lương tháng {{ $month }}/{{ $year }}</h5>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-borderless">
+                                        <tr>
+                                            <th width="40%">Lương cơ bản:</th>
+                                            <td>{{ number_format($salaryInfo['employee']->salary) }} đ</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Số ngày làm việc chuẩn:</th>
+                                            <td>{{ $salaryInfo['work_days'] }} ngày</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Số ngày đi làm thực tế:</th>
+                                            <td>{{ $salaryInfo['attendance_days'] }} ngày</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Lương một ngày:</th>
+                                            <td>{{ number_format($salaryInfo['salary_per_day']) }} đ</td>
+                                        </tr>
+                                        <tr class="table-success">
+                                            <th><strong>Tổng lương thực nhận:</strong></th>
+                                            <td><strong>{{ number_format($salaryInfo['total_salary']) }} đ</strong></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                    @endif
+                    </div>
                 </div>
             </div>
         </div>

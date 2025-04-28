@@ -10,14 +10,27 @@
         </div>
         <div class="card-body">
             @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul class="mb-0">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             <form action="{{ route('performance.store') }}" method="POST">
                 @csrf
                 <div class="row mb-3">
@@ -50,7 +63,16 @@
                     </div>
                     <div class="col-md-2">
                         <label for="overall_score" class="form-label">Điểm tổng <span class="text-danger">*</span></label>
-                        <input type="number" step="0.01" min="0" max="100" name="overall_score" id="overall_score" class="form-control" value="{{ old('overall_score') }}" required>
+                        <input type="number" step="0.01" min="0" max="100" name="overall_score" id="overall_score" class="form-control" value="{{ old('overall_score') }}" required readonly>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="status" class="form-label">Trạng thái <span class="text-danger">*</span></label>
+                        <select name="status" id="status" class="form-select" required>
+                            <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Nháp</option>
+                            <option value="submitted" {{ old('status') == 'submitted' ? 'selected' : '' }}>Chờ duyệt</option>
+                            <option value="approved" {{ old('status') == 'approved' ? 'selected' : '' }}>Đã duyệt</option>
+                            <option value="rejected" {{ old('status') == 'rejected' ? 'selected' : '' }}>Từ chối</option>
+                        </select>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -89,15 +111,18 @@
                                         <input type="hidden" name="kpi_results[{{ $loop->index }}][kpi_id]" value="{{ $kpi->id }}">
                                     </td>
                                     <td>{{ $kpi->unit }}</td>
-                                    <td>{{ $kpi->weight }}</td>
                                     <td>
-                                        <input type="number" step="0.01" name="kpi_results[{{ $loop->index }}][target_value]" class="form-control" value="{{ $kpi->target_value }}" required>
+                                        {{ $kpi->weight }}
+                                        <input type="hidden" class="kpi-weight" value="{{ $kpi->weight }}">
                                     </td>
                                     <td>
-                                        <input type="number" step="0.01" name="kpi_results[{{ $loop->index }}][actual_value]" class="form-control" value="{{ old('kpi_results.'.$loop->index.'.actual_value') }}" required>
+                                        <input type="number" step="0.01" name="kpi_results[{{ $loop->index }}][target_value]" class="form-control target-value" value="{{ $kpi->target_value }}" required>
                                     </td>
                                     <td>
-                                        <input type="number" step="0.01" min="0" max="100" name="kpi_results[{{ $loop->index }}][score]" class="form-control" value="{{ old('kpi_results.'.$loop->index.'.score') }}" required>
+                                        <input type="number" step="0.01" name="kpi_results[{{ $loop->index }}][actual_value]" class="form-control actual-value" value="{{ old('kpi_results.'.$loop->index.'.actual_value') }}" required>
+                                    </td>
+                                    <td>
+                                        <input type="number" step="0.01" min="0" max="100" name="kpi_results[{{ $loop->index }}][score]" class="form-control kpi-score" value="{{ old('kpi_results.'.$loop->index.'.score') }}" required>
                                     </td>
                                     <td>
                                         <input type="text" name="kpi_results[{{ $loop->index }}][comment]" class="form-control" value="{{ old('kpi_results.'.$loop->index.'.comment') }}">
@@ -115,4 +140,50 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Tính điểm KPI khi thay đổi giá trị thực tế
+    document.querySelectorAll('.actual-value').forEach(function(input) {
+        input.addEventListener('input', calculateScore);
+    });
+
+    // Tính điểm tổng khi thay đổi điểm KPI
+    document.querySelectorAll('.kpi-score').forEach(function(input) {
+        input.addEventListener('input', calculateOverallScore);
+    });
+
+    function calculateScore(e) {
+        const row = e.target.closest('tr');
+        const targetValue = parseFloat(row.querySelector('.target-value').value) || 0;
+        const actualValue = parseFloat(e.target.value) || 0;
+        
+        let score = 0;
+        if (targetValue > 0) {
+            score = (actualValue / targetValue) * 100;
+        }
+        
+        row.querySelector('.kpi-score').value = Math.min(100, Math.max(0, score.toFixed(2)));
+        calculateOverallScore();
+    }
+
+    function calculateOverallScore() {
+        let totalScore = 0;
+        let totalWeight = 0;
+        
+        document.querySelectorAll('tbody tr').forEach(function(row) {
+            const weight = parseFloat(row.querySelector('.kpi-weight').value) || 0;
+            const score = parseFloat(row.querySelector('.kpi-score').value) || 0;
+            
+            totalScore += (weight * score);
+            totalWeight += weight;
+        });
+        
+        const overallScore = totalWeight > 0 ? (totalScore / totalWeight).toFixed(2) : 0;
+        document.getElementById('overall_score').value = overallScore;
+    }
+});
+</script>
+@endpush
 @endsection

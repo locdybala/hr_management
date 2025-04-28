@@ -78,5 +78,9 @@ class DatabaseSeeder extends Seeder
 
         // Tạo 50 nhân viên mẫu
         Employee::factory(50)->create();
+
+        $this->call([
+            KpiSeeder::class,
+        ]);
     }
 }

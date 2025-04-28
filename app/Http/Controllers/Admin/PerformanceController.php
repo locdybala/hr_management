@@ -9,6 +9,7 @@ use App\Models\KpiResult;
 use App\Models\PerformanceReview;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class PerformanceController extends Controller
 {
@@ -47,11 +48,12 @@ class PerformanceController extends Controller
     // 2. Lưu phiếu đánh giá KPI mới
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'employee_id' => 'required|exists:employees,id',
             'year' => 'required|integer|min:2000|max:2100',
             'quarter' => 'required|integer|in:1,2,3,4',
             'overall_score' => 'required|numeric|min:0|max:100',
+            'status' => 'required|in:draft,submitted,approved,rejected',
             'strengths' => 'nullable|string',
             'weaknesses' => 'nullable|string',
             'improvements' => 'nullable|string',
@@ -62,6 +64,13 @@ class PerformanceController extends Controller
             'kpi_results.*.score' => 'required|numeric|min:0|max:100',
             'kpi_results.*.comment' => 'nullable|string',
         ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         DB::beginTransaction();
         try {
             $review = PerformanceReview::create([
@@ -70,11 +79,12 @@ class PerformanceController extends Controller
                 'year' => $request->year,
                 'quarter' => $request->quarter,
                 'overall_score' => $request->overall_score,
+                'status' => $request->status,
                 'strengths' => $request->strengths,
                 'weaknesses' => $request->weaknesses,
                 'improvements' => $request->improvements,
-                'status' => 'draft',
             ]);
+
             foreach ($request->kpi_results as $result) {
                 KpiResult::create([
                     'performance_review_id' => $review->id,
@@ -85,11 +95,15 @@ class PerformanceController extends Controller
                     'comment' => $result['comment'],
                 ]);
             }
+
             DB::commit();
-            return redirect()->route('performance.index')->with('success', 'Thêm phiếu đánh giá KPI thành công!');
+            return redirect()->route('performance.index')
+                ->with('success', 'Thêm phiếu đánh giá KPI thành công!');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+            return back()
+                ->with('error', 'Có lỗi xảy ra: ' . $e->getMessage())
+                ->withInput();
         }
     }
 
@@ -109,11 +123,13 @@ class PerformanceController extends Controller
     public function update(Request $request, $id)
     {
         $review = PerformanceReview::findOrFail($id);
-        $request->validate([
+        
+        $validator = Validator::make($request->all(), [
             'employee_id' => 'required|exists:employees,id',
             'year' => 'required|integer|min:2000|max:2100',
             'quarter' => 'required|integer|in:1,2,3,4',
             'overall_score' => 'required|numeric|min:0|max:100',
+            'status' => 'required|in:draft,submitted,approved,rejected',
             'strengths' => 'nullable|string',
             'weaknesses' => 'nullable|string',
             'improvements' => 'nullable|string',
@@ -124,6 +140,13 @@ class PerformanceController extends Controller
             'kpi_results.*.score' => 'required|numeric|min:0|max:100',
             'kpi_results.*.comment' => 'nullable|string',
         ]);
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         DB::beginTransaction();
         try {
             $review->update([
@@ -131,10 +154,12 @@ class PerformanceController extends Controller
                 'year' => $request->year,
                 'quarter' => $request->quarter,
                 'overall_score' => $request->overall_score,
+                'status' => $request->status,
                 'strengths' => $request->strengths,
                 'weaknesses' => $request->weaknesses,
                 'improvements' => $request->improvements,
             ]);
+
             $review->kpiResults()->delete();
             foreach ($request->kpi_results as $result) {
                 KpiResult::create([
@@ -146,11 +171,15 @@ class PerformanceController extends Controller
                     'comment' => $result['comment'],
                 ]);
             }
+
             DB::commit();
-            return redirect()->route('performance.index')->with('success', 'Cập nhật phiếu đánh giá KPI thành công!');
+            return redirect()->route('performance.index')
+                ->with('success', 'Cập nhật phiếu đánh giá KPI thành công!');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+            return back()
+                ->with('error', 'Có lỗi xảy ra: ' . $e->getMessage())
+                ->withInput();
         }
     }
 

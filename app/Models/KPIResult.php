@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class KPIResult extends Model
+class KpiResult extends Model
 {
     use HasFactory, SoftDeletes;
+
+    protected $table = 'kpi_results';
 
     protected $fillable = [
         'performance_review_id',

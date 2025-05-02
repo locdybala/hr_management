@@ -15,7 +15,9 @@ class EmployeeFactory extends Factory
             'employee_code' => 'EMP' . fake()->unique()->numberBetween(1000, 9999),
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
-            'email' => fake()->unique()->safeEmail(),
+            'email' => function (array $attributes) {
+                return \App\Models\User::find($attributes['user_id'])->email;
+            },
             'phone' => fake()->phoneNumber(),
             'address' => fake()->address(),
             'birthday' => fake()->date(),

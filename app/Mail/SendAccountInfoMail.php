@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\User;
 
 class SendAccountInfoMail extends Mailable
 {
@@ -19,7 +20,7 @@ class SendAccountInfoMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($user, $password)
+    public function __construct(User $user, $password)
     {
         $this->user = $user;
         $this->password = $password;
@@ -31,7 +32,7 @@ class SendAccountInfoMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Send Account Info Mail',
+            subject: 'Thông tin tài khoản của bạn',
         );
     }
 
@@ -41,7 +42,11 @@ class SendAccountInfoMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.account_info',
+            view: 'emails.account-info',
+            with: [
+                'user' => $this->user,
+                'password' => $this->password,
+            ],
         );
     }
 

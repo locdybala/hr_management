@@ -97,4 +97,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user/edit', [UserController::class, 'edit'])->name('user.edit');
     Route::put('/user/update', [UserController::class, 'update'])->name('user.update');
 });
-
+Route::get('/test-email', function() {
+    Mail::to('locdybala11@gmail.com')->send(new \App\Mail\TestMail());
+    return 'Email sent!';
+});

@@ -89,13 +89,13 @@ class EmployeeController extends Controller
         ]);
 
         // Gửi email xác thực tài khoản
-        \Mail::send('emails.verify', ['token' => $verificationToken], function($message) use ($user) {
-            $message->to($user->email);
-            $message->subject('Xác thực tài khoản');
+        Mail::send('emails.verify', ['token' => $verificationToken], function($message) use ($user) {
+            $message->to($user->email)
+                    ->subject('Xác thực tài khoản');
         });
 
-        // Gửi email thông tin tài khoản (nếu muốn)
-        \Mail::to($user->email)->send(new \App\Mail\SendAccountInfoMail($user, $password));
+        // Gửi email thông tin tài khoản
+        Mail::to($user->email)->send(new SendAccountInfoMail($user, $password));
 
         return redirect()->route('employees.index')->with('success', 'Thêm nhân viên thành công, đã gửi email xác thực và thông tin tài khoản!');
     }

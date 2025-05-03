@@ -43,55 +43,7 @@
             </div>
         </div>
 
-        <div class="col-xl-3 col-md-6">
-            <div class="card card-h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <span class="text-muted mb-3 lh-1 d-block text-truncate">Phòng ban</span>
-                            <h4 class="mb-3">
-                                <span class="counter-value" data-target="{{ App\Models\Department::count() }}">0</span>
-                            </h4>
-                            <div class="text-nowrap">
-                                <span class="badge bg-info-subtle text-info">Quản lý phòng ban</span>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0 text-end">
-                            <div class="avatar-sm">
-                                <span class="avatar-title bg-success-subtle rounded-circle">
-                                    <i class="bi bi-building text-success font-size-24"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-md-6">
-            <div class="card card-h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <span class="text-muted mb-3 lh-1 d-block text-truncate">Chức vụ</span>
-                            <h4 class="mb-3">
-                                <span class="counter-value" data-target="{{ App\Models\Position::count() }}">0</span>
-                            </h4>
-                            <div class="text-nowrap">
-                                <span class="badge bg-warning-subtle text-warning">Quản lý chức vụ</span>
-                            </div>
-                        </div>
-                        <div class="flex-shrink-0 text-end">
-                            <div class="avatar-sm">
-                                <span class="avatar-title bg-warning-subtle rounded-circle">
-                                    <i class="bi bi-person-badge text-warning font-size-24"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    
 
         <div class="col-xl-3 col-md-6">
             <div class="card card-h-100">

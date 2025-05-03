@@ -31,7 +31,7 @@ class EmployeeController extends Controller
                   ->orWhere('email', 'like', "%$search%") ;
             });
         }
-        $employees = $query->with(['department', 'position'])->orderBy('id', 'desc')->paginate(10);
+        $employees = $query->orderBy('id', 'desc')->paginate(10);
         return view('admin.employees.index', compact('employees'));
     }
 
@@ -122,8 +122,6 @@ class EmployeeController extends Controller
             'email' => 'required|email|max:255|unique:employees,email,' . $employee->id,
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'department_id' => 'required|exists:departments,id',
-            'position_id' => 'required|exists:positions,id',
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:255',
             'birthday' => 'nullable|date',

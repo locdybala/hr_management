@@ -23,7 +23,7 @@ class CreateEmployeesTable extends Migration
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->decimal('salary', 12, 2)->nullable();
-            $table->enum('status', ['active', 'inactive', 'on_leave'])->default('active');
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
             $table->softDeletes();
         });

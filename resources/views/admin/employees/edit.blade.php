@@ -57,32 +57,6 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="department_id" class="form-label">Phòng ban <span class="text-danger">*</span></label>
-                                <select class="form-select @error('department_id') is-invalid @enderror" id="department_id" name="department_id" required>
-                                    <option value="">-- Chọn phòng ban --</option>
-                                    @foreach($departments as $department)
-                                        <option value="{{ $department->id }}" {{ old('department_id', $employee->department_id) == $department->id ? 'selected' : '' }}>{{ $department->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('department_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="position_id" class="form-label">Chức vụ <span class="text-danger">*</span></label>
-                                <select class="form-select @error('position_id') is-invalid @enderror" id="position_id" name="position_id" required>
-                                    <option value="">-- Chọn chức vụ --</option>
-                                    @foreach(App\Models\Position::all() as $position)
-                                        <option value="{{ $position->id }}" {{ old('position_id', $employee->position_id) == $position->id ? 'selected' : '' }}>{{ $position->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('position_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
                                 <label for="phone" class="form-label">Số điện thoại</label>
                                 <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone', $employee->phone) }}">
                                 @error('phone')
@@ -117,7 +91,7 @@
                                 @enderror
                             </div>
                             <div class="col-md-4 mb-3">
-                                <label for="salary" class="form-label">Lương</label>
+                                <label for="salary" class="form-label">Lương <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control @error('salary') is-invalid @enderror" id="salary" name="salary" value="{{ old('salary', $employee->salary) }}" step="0.01">
                                 @error('salary')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -137,7 +111,6 @@
                                 <select class="form-select @error('status') is-invalid @enderror" id="status" name="status" required>
                                     <option value="active" {{ old('status', $employee->status) == 'active' ? 'selected' : '' }}>Đang làm việc</option>
                                     <option value="inactive" {{ old('status', $employee->status) == 'inactive' ? 'selected' : '' }}>Nghỉ việc</option>
-                                    <option value="on_leave" {{ old('status', $employee->status) == 'on_leave' ? 'selected' : '' }}>Đang nghỉ phép</option>
                                 </select>
                                 @error('status')
                                     <div class="invalid-feedback">{{ $message }}</div>

@@ -48,8 +48,6 @@
                                                 <span class="badge bg-success">Đang làm</span>
                                             @elseif($employee->status == 'inactive')
                                                 <span class="badge bg-danger">Nghỉ việc</span>
-                                            @else
-                                                <span class="badge bg-warning text-dark">Nghỉ phép</span>
                                             @endif
                                         </td>
                                         <td>

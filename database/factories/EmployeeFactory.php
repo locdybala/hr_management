@@ -23,7 +23,7 @@ class EmployeeFactory extends Factory
             'start_date' => fake()->date(),
             'end_date' => fake()->optional()->date(),
             'salary' => fake()->numberBetween(5000000, 50000000),
-            'status' => fake()->randomElement(['active', 'inactive', 'on_leave']),
+            'status' => fake()->randomElement(['active', 'inactive']),
         ];
     }
 }

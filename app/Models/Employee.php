@@ -18,8 +18,6 @@ class Employee extends Model
         'email',
         'phone',
         'address',
-        'department_id',
-        'position_id',
         'join_date',
         'salary',
         'status',
@@ -34,16 +32,6 @@ class Employee extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    public function department()
-    {
-        return $this->belongsTo(Department::class);
-    }
-
-    public function position()
-    {
-        return $this->belongsTo(Position::class);
     }
 
     public function getFullNameAttribute()

@@ -53,14 +53,7 @@
                                             <th>Mã nhân viên:</th>
                                             <td>{{ $salaryInfo['employee']->employee_code }}</td>
                                         </tr>
-                                        <tr>
-                                            <th>Phòng ban:</th>
-                                            <td>{{ $salaryInfo['employee']->department->name }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Chức vụ:</th>
-                                            <td>{{ $salaryInfo['employee']->position->name }}</td>
-                                        </tr>
+                                        
                                     </table>
                                 </div>
                             </div>

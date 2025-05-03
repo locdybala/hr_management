@@ -62,12 +62,6 @@
         <div class="card-body">
             <div class="row mb-2">
                 <div class="col-md-4 mb-2">
-                    <strong>Phòng ban:</strong> {{ $employee->department->name ?? 'N/A' }}
-                </div>
-                <div class="col-md-4 mb-2">
-                    <strong>Chức danh:</strong> {{ $employee->position->name ?? 'N/A' }}
-                </div>
-                <div class="col-md-4 mb-2">
                     <strong>Loại nhân viên:</strong> {{ $employee->type ?? 'N/A' }}
                 </div>
             </div>

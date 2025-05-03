@@ -46,15 +46,18 @@ class RegisterController extends Controller
     public function verify($token)
     {
         $user = User::where('verification_token', $token)->first();
-
         if (!$user) {
-            return redirect()->route('login')->with('error', 'Link xác thực không hợp lệ.');
+            return redirect()->route('login')->with('error', 'Link xác thực không hợp lệ hoặc đã hết hạn.');
+        }
+
+        if ($user->email_verified_at) {
+            return redirect()->route('login')->with('info', 'Email của bạn đã được xác thực trước đó.');
         }
 
         $user->email_verified_at = now();
         $user->verification_token = null;
         $user->save();
 
-        return redirect()->route('login')->with('success', 'Tài khoản đã được xác thực thành công.');
+        return redirect()->route('login')->with('success', 'Email của bạn đã được xác thực thành công. Bạn có thể đăng nhập ngay bây giờ.');
     }
 }

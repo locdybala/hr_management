@@ -20,7 +20,18 @@ class AuthController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
+
         if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            
+            // Check if email is verified, but skip for admin users
+            if (!$user->email_verified_at && $user->role !== 'admin') {
+                Auth::logout();
+                return back()->withErrors([
+                    'email' => 'Vui lòng xác thực email trước khi đăng nhập.',
+                ])->onlyInput('email');
+            }
+
             $request->session()->regenerate();
 
             // Kiểm tra role và redirect tới trang tương ứng

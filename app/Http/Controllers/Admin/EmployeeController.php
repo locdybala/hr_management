@@ -60,6 +60,10 @@ class EmployeeController extends Controller
 
         $password = \Illuminate\Support\Str::random(8);
         $verificationToken = \Illuminate\Support\Str::random(60);
+        
+        // Debug token
+        \Log::info('Verification token created: ' . $verificationToken);
+        
         $user = \App\Models\User::create([
             'name' => $request->first_name . ' ' . $request->last_name,
             'email' => $request->email,
@@ -69,6 +73,9 @@ class EmployeeController extends Controller
             'verification_token' => $verificationToken,
             'email_verified_at' => null,
         ]);
+
+        // Debug user creation
+        \Log::info('User created with verification token: ' . $user->verification_token);
 
         $employee = \App\Models\Employee::create([
             'user_id' => $user->id,
@@ -83,13 +90,23 @@ class EmployeeController extends Controller
         ]);
 
         // Gửi email xác thực tài khoản
-        Mail::send('emails.verify', ['token' => $verificationToken], function($message) use ($user) {
-            $message->to($user->email)
-                    ->subject('Xác thực tài khoản');
-        });
+        try {
+            Mail::send('emails.verify', ['token' => $verificationToken], function($message) use ($user) {
+                $message->to($user->email)
+                        ->subject('Xác thực tài khoản nhân viên');
+            });
+            \Log::info('Verification email sent to: ' . $user->email . ' with token: ' . $verificationToken);
+        } catch (\Exception $e) {
+            \Log::error('Failed to send verification email: ' . $e->getMessage());
+        }
 
         // Gửi email thông tin tài khoản
-        Mail::to($user->email)->send(new SendAccountInfoMail($user, $password));
+        try {
+            Mail::to($user->email)->send(new SendAccountInfoMail($user, $password));
+            \Log::info('Account info email sent to: ' . $user->email);
+        } catch (\Exception $e) {
+            \Log::error('Failed to send account info email: ' . $e->getMessage());
+        }
 
         return redirect()->route('employees.index')->with('success', 'Thêm nhân viên thành công, đã gửi email xác thực và thông tin tài khoản!');
     }

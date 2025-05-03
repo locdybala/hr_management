@@ -158,9 +158,6 @@
                         data-bs-toggle="dropdown">
 
                         <div class="profile-name">{{ auth()->user()->name }}</div>
-                        @if (auth()->user()->role !== 'admin')
-                            <div class="profile-role">{{ auth()->user()->employee->position->name }}</div>
-                        @endif
 
                         <img src="https://randomuser.me/api/portraits/men/1.jpg" class="profile-avatar" alt="avatar">
                     </a>

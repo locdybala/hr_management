@@ -12,12 +12,12 @@ class CreateEmployeesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('employee_code')->unique();
-            $table->string('first_name')->after('employee_code');
-            $table->string('last_name')->after('first_name');
-            $table->string('email')->unique()->after('last_name');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('email')->unique();
             $table->string('phone')->nullable();
             $table->text('address')->nullable();
-            $table->string('avatar')->nullable()->after('address');
+            $table->string('avatar')->nullable();
             $table->date('birthday')->nullable();
             $table->enum('gender', ['male', 'female'])->nullable();
             $table->date('start_date')->nullable();

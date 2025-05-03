@@ -34,48 +34,6 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        // Tạo các phòng ban
-        $departments = [
-            'Phòng Nhân sự',
-            'Phòng Kế toán',
-            'Phòng Kỹ thuật',
-            'Phòng Kinh doanh',
-            'Phòng Marketing',
-            'Phòng Hành chính',
-            'Phòng IT',
-            'Phòng Quản lý chất lượng'
-        ];
-
-        foreach ($departments as $dept) {
-            Department::create([
-                'name' => $dept,
-                'description' => fake()->sentence(),
-                'status' => 'active',
-            ]);
-        }
-
-        // Tạo các vị trí
-        $positions = [
-            'Trưởng phòng',
-            'Phó phòng',
-            'Nhân viên',
-            'Chuyên viên',
-            'Kế toán trưởng',
-            'Kỹ sư',
-            'Nhân viên kinh doanh',
-            'Nhân viên marketing',
-            'Lập trình viên',
-            'Kiểm soát viên chất lượng'
-        ];
-
-        foreach ($positions as $pos) {
-            Position::create([
-                'name' => $pos,
-                'description' => fake()->sentence(),
-                'status' => 'active',
-            ]);
-        }
-
         // Tạo 50 nhân viên mẫu
         Employee::factory(50)->create();
 

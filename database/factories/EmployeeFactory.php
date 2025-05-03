@@ -10,8 +10,6 @@ class EmployeeFactory extends Factory
     {
         return [
             'user_id' => \App\Models\User::factory(),
-            'department_id' => \App\Models\Department::factory(),
-            'position_id' => \App\Models\Position::factory(),
             'employee_code' => 'EMP' . fake()->unique()->numberBetween(1000, 9999),
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),

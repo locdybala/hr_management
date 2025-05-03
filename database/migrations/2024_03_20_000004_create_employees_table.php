@@ -11,11 +11,13 @@ class CreateEmployeesTable extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('department_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('position_id')->nullable()->constrained()->nullOnDelete();
             $table->string('employee_code')->unique();
+            $table->string('first_name')->after('employee_code');
+            $table->string('last_name')->after('first_name');
+            $table->string('email')->unique()->after('last_name');
             $table->string('phone')->nullable();
             $table->text('address')->nullable();
+            $table->string('avatar')->nullable()->after('address');
             $table->date('birthday')->nullable();
             $table->enum('gender', ['male', 'female'])->nullable();
             $table->date('start_date')->nullable();

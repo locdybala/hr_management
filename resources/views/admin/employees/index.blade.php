@@ -31,8 +31,6 @@
                                     <th>Mã NV</th>
                                     <th>Họ tên</th>
                                     <th>Email</th>
-                                    <th>Phòng ban</th>
-                                    <th>Chức vụ</th>
                                     <th>Trạng thái</th>
                                     <th>Ảnh</th>
                                     <th>Hành động</th>
@@ -45,8 +43,6 @@
                                         <td>{{ $employee->employee_code }}</td>
                                         <td>{{ $employee->full_name }}</td>
                                         <td>{{ $employee->email }}</td>
-                                        <td>{{ $employee->department->name ?? '-' }}</td>
-                                        <td>{{ $employee->position->name ?? '-' }}</td>
                                         <td>
                                             @if($employee->status == 'active')
                                                 <span class="badge bg-success">Đang làm</span>

@@ -40,9 +40,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        $departments = Department::all();
-        $positions = Position::all();
-        return view('admin.employees.create', compact('departments', 'positions'));
+        return view('admin.employees.create');
     }
 
     /**
@@ -55,8 +53,6 @@ class EmployeeController extends Controller
             'email' => 'required|email|unique:users',
             'first_name' => 'required',
             'last_name' => 'required',
-            'department_id' => 'required',
-            'position_id' => 'required',
             'phone' => 'required',
             'salary' => 'required|numeric',
             'status' => 'required',
@@ -80,8 +76,6 @@ class EmployeeController extends Controller
             'email' => $request->email,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'department_id' => $request->department_id,
-            'position_id' => $request->position_id,
             'phone' => $request->phone,
             'address' => $request->address,
             'salary' => $request->salary,
@@ -114,9 +108,7 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         $employee = Employee::findOrFail($id);
-        $departments = Department::all();
-        $positions = Position::all();
-        return view('admin.employees.edit', compact('employee', 'departments', 'positions'));
+        return view('admin.employees.edit', compact('employee'));
     }
 
     /**

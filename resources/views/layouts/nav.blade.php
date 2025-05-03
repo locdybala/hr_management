@@ -106,18 +106,6 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('admin/departments*') ? 'active' : '' }}"
-                            href="{{ route('departments.index') }}">
-                            <i class="bi bi-building"></i> Quản lý phòng ban
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->is('admin/positions*') ? 'active' : '' }}"
-                            href="{{ route('positions.index') }}">
-                            <i class="bi bi-person-badge"></i> Quản lý chức vụ
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link {{ request()->is('admin/attendance*') ? 'active' : '' }}"
                             href="{{ route('attendance.index') }}">
                             <i class="bi bi-calendar-check"></i> Chấm công
